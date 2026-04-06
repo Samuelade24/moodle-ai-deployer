@@ -40,8 +40,48 @@ DB_PASS=$(openssl rand -base64 16 | tr -d "=+/" | cut -c1-16)
 
 # Setup database
 echo -e "${GREEN}Configuring database...${NC}"
-sudo mysql << EOF
+sudo mysql << MYSQL
 CREATE DATABASE IF NOT EXISTS moodle DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER IF NOT EXISTS 'moodleuser'@'localhost' IDENTIFIED BY '$DB_PASS';
 GRANT ALL PRIVILEGES ON moodle.* TO 'moodleuser'@'localhost';
 FLUSH PRIVILEGES;
+MYSQL
+
+# Create config.php
+sudo tee /var/www/html/config.php > /dev/null << PHP
+<?php
+unset(\$CFG);
+\$CFG = new stdClass();
+\$CFG->dbtype = 'mysqli';
+\$CFG->dblibrary = 'native';
+\$CFG->dbhost = 'localhost';
+\$CFG->dbname = 'moodle';
+\$CFG->dbuser = 'moodleuser';
+\$CFG->dbpass = '$DB_PASS';
+\$CFG->prefix = 'mdl_';
+\$CFG->wwwroot = 'http://' . \$_SERVER['HTTP_HOST'];
+\$CFG->dataroot = '/var/moodledata';
+\$CFG->admin = 'admin';
+require_once(__DIR__ . '/lib/setup.php');
+PHP
+
+# Setup permissions
+sudo mkdir -p /var/moodledata
+sudo chown -R www-data:www-data /var/www/html /var/moodledata
+sudo chmod -R 755 /var/www/html
+sudo chmod 644 /var/www/html/config.php
+
+# Save credentials
+cat > ~/moodle_credentials.txt << CRED
+Moodle Installation Credentials
+URL: http://$(hostname -I | awk '{print $1}')
+Database: moodle
+Username: moodleuser
+Password: $DB_PASS
+CRED
+
+echo -e "${GREEN}========================================${NC}"
+echo -e "${GREEN}Installation Complete!${NC}"
+echo -e "${GREEN}========================================${NC}"
+echo -e "Access Moodle: ${GREEN}http://$(hostname -I | awk '{print $1}')${NC}"
+echo -e "Credentials saved: ${YELLOW}~/moodle_credentials.txt${NC}"
