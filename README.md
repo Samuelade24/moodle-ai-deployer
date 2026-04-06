@@ -26,3 +26,13 @@ cd moodle-ai-deployer
 
 # Follow the web installer at http://localhost
 ```
+
+## 📊 Repository Stats
+
+![GitHub stars](https://img.shields.io/github/stars/Samuelade24/moodle-ai-deployer)
+![GitHub forks](https://img.shields.io/github/forks/Samuelade24/moodle-ai-deployer)
+![GitHub issues](https://img.shields.io/github/issues/Samuelade24/moodle-ai-deployer)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
