@@ -1,0 +1,36 @@
+# Sensitive data
+*.env
+*.key
+*_credentials.txt
+*_password.txt
+config.local.php
+
+# Backup files
+*.sql
+*.sql.gz
+backups/
+*.backup
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+/tmp/
+*.tmp
+*.temp
+
+# Moodle specific
+/moodledata/
+/cache/
+/sessions/
