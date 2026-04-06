@@ -18,7 +18,7 @@ One-command deployment of **Moodle LMS with AI capabilities** on Ubuntu/WSL2.
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/moodle-ai-deployer.git
+git clone https://github.com/Samuelade24/moodle-ai-deployer.git
 cd moodle-ai-deployer
 
 # Run the installer
